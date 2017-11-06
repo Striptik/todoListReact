@@ -1,2 +1,2 @@
 # todoListReact
-Minimalist todo app in react to, with filters.
+Minimalist todo app in react, with filters.
