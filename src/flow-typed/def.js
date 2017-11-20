@@ -21,9 +21,14 @@ export type CounterProps = {
   children: Node,
 };
 
+export type TodoType = {
+  label: string,
+  complete: Boolean,
+};
+
 export type AppState = {
   //count: number
-  todos: Array<Object>,
+  todos: Array<TodoType>,
   loading: boolean,
   filter: string,
   errorMsg: string,
@@ -32,13 +37,28 @@ export type AppState = {
 export type TodoListProps = {
   errorHandler: Function,
   filter: string,
-  todos: Array<Object>
+  todos: Array<TodoType>,
 };
 
 export type TodoListState = {
   input: string,
-  todos: Array<Object>,
+  todos: Array<TodoType>,
   filter: string,
 };
 
+export type TodoProps = {
+  todo: TodoType,
+  index: number,
+  changeState: Function,
+}
 
+export type InputTodoProps = {
+  inputValue: string,
+  saveTyping: Function,
+  addTodo: Function,
+};
+
+export type FilterTodoProps = {
+  filter: string,
+  changeFilter: Function,
+};

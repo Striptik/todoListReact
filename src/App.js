@@ -73,15 +73,7 @@ class App extends Component <{}, AppState> {
       })
     });
   }
-  
-  // HACK: The flow type event for react :
-  // HACK: SyntheticEvent<HTMLButtonElement>
-  onButtonClick = () => {
-    console.log('Button Clicked');
-    this.setState({
-      count: this.state.count + 1,
-    });
-  };
+;
   
   renderError () {
     return (
@@ -109,13 +101,6 @@ class App extends Component <{}, AppState> {
         
         {/*CLOCK*/}
         <Clock interval={1000} />
-        
-        {/*TODOLIST*/}
-        {/*
-         If error display error,
-         If loading display loading,
-         If not, display Todolist
-        */}
         
         {isError ? this.renderError() : isLoading ? this.renderLoading() :
     

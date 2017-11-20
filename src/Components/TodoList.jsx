@@ -2,8 +2,12 @@
 
 import * as React from 'react';
 import { Component } from 'react';
-import { TodoListProps, TodoListState } from '../flow-typed/def';
 
+
+import { TodoListProps, TodoListState } from '../flow-typed/def';
+import Todo from './Todo';
+import InputTodo from './InputTodo'
+import Filter from './Filter'
 
 class TodoList extends Component<TodoListProps, TodoListState> {
   //# Flow needs
@@ -15,8 +19,8 @@ class TodoList extends Component<TodoListProps, TodoListState> {
   constructor(props: TodoListProps) {
     super(props);
     
-    this.saveTyping = this.saveTyping.bind(this);
-    this.addTodo = this.addTodo.bind(this);
+    //this.saveTyping = this.saveTyping.bind(this);
+    //this.addTodo = this.addTodo.bind(this);
     this.changeFilter = this.changeFilter.bind(this);
     //this.changeStateTodo = this.changeStateTodo.bind(this);
     
@@ -41,151 +45,63 @@ class TodoList extends Component<TodoListProps, TodoListState> {
     //# Add it to the todoList
     this.setState({
       input: '',
-      todos: [ ...this.state.todos, newTodo ],
+      todos: [ newTodo, ...this.state.todos ],
     });
   }
   
   //# Change the todos state when catch click on <li>
-  changeStateTodo (index: number) {
+  changeStateTodo(index: number) {
     //# Retrieve Todos and copy to new array
     let todos = this.state.todos;
     //# Change the value of the good todo
-    todos[index].complete = !todos[index].complete;
+    todos[ index ].complete = !todos[ index ].complete;
     //# Replace the todos with right state
     this.setState({
-      todos
+      todos,
     });
   }
   
-  changeFilter (e: SyntheticEvent<HTMLSelectElement>) {
-  let filter = e.currentTarget.value;
+  changeFilter(e: SyntheticEvent<HTMLSelectElement>) {
+    let filter = e.currentTarget.value;
     this.setState({
-      filter
+      filter,
     });
-  }
-  
-  //# Method to render the input
-  renderInput() {
-
-    return (
-      <div
-        className="addTodo"
-        style={{ marginBottom: 70, marginTop: 50 }}
-      >
-        <p>Something to do today ?</p>
-        <input
-          className="addTodo_input"
-          type="text"
-          placeholder="New task..."
-          onChange={this.saveTyping}
-          value={this.state.input}
-        />
-        <input
-          className="addTodo_button"
-          type="button"
-          value="Add"
-          onClick={this.addTodo}
-        />
-      </div>
-    );
-  }
-  
-  //# Method to render the todoList
-  renderTodoList() {
-    
-    return (
-      <div className="todoList">
-        <ul style={{
-          paddingRight: 50,
-        }}>
-          {/*Check filter*/}
-          {this.state.todos.map((todo, i) => {
-            switch (this.state.filter) {
-              // Display all the todos
-              case 'none':
-                return (
-                  <li
-                    key={i}
-                    onClick={this.changeStateTodo.bind(this, i)}
-                    style={{ listStyle: 'none', fontSize: 25 }}
-                  >
-                    {
-                      todo.complete ?
-                        <s>{todo.label}</s>
-                        :
-                        todo.label
-                    }
-                  </li>
-                );
-              // display only completed todos
-              case 'completed':
-                return (
-                  todo.complete ?
-                  <li
-                    key={i}
-                    onClick={this.changeStateTodo.bind(this, i)}
-                    style={{ listStyle: 'none', fontSize: 25 }}
-                  >
-                    <s>{todo.label}</s>
-                  </li>
-                    :
-                    null
-                );
-              // display only in progress todos
-              case 'inprogress':
-                return (
-                  todo.complete ?
-                    null
-                    :
-                    <li
-                      key={i}
-                      onClick={this.changeStateTodo.bind(this, i)}
-                      style={{ listStyle: 'none', fontSize: 25 }}
-                    >
-                      {todo.label}
-                    </li>
-                );
-            }
-            
-          })}
-        </ul>
-      </div>
-    );
-  }
-  
-  renderFilters () {
-    return (
-      <div className="TodoFilters" style={{ marginTop: 100}}>
-        <label>
-          Filters task :
-          <select value={this.state.filter} onChange={this.changeFilter}>
-            <option value="none">None</option>
-            <option value="completed">Completed</option>
-            <option value="inprogress">In progress</option>
-          </select>
-        </label>
-      </div>
-    );
   }
   
   render() {
     return (
       <div>
         <h1 style={{ fontSize: 50 }}>TODOLIST</h1>
-        {/* input */}
-        {
-          this.renderInput()
-        }
+          {/* INPUT */}
+          <InputTodo
+            inputValue={this.state.input}
+            saveTyping={this.saveTyping.bind(this)}
+            addTodo={this.addTodo.bind(this)}
+          />
         
-        {/*list of todos*/}
-        {
-          this.renderTodoList()
-        }
-        
-        {/* filters */}
-        {
-          this.renderFilters()
-        }
+          {/* TODO LIST */}
+          <div className="todoList">
+            <ul style={{ paddingRight: 50 }}>
+              {this.state.todos.map((todo, i) => {
+          
+                if (todo.complete && this.state.filter === 'inprogress') return null;
+                if (!todo.complete && this.state.filter === 'completed') return null;
+                return (
+                  <Todo
+                    todo={todo}
+                    index={i}
+                    changeState={this.changeStateTodo.bind(this, i)}
+                  />
+                );
+              })}
+            </ul>
+          </div>
+         
+          {/* Filter */}
+          <Filter
+            filter={this.state.filter}
+            changeFilter={this.changeFilter.bind(this)}
+          />
       </div>
     );
   }
