@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { FilterTodoProps } from '../flow-typed/def';
+import { FilterTodoProps } from '../../../flow-typed/def';
 
 export default (props: FilterTodoProps) => {
   return (

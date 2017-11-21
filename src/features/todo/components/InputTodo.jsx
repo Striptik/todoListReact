@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { InputTodoProps } from '../flow-typed/def';
+import { InputTodoProps } from '../../../flow-typed/def';
 
 export default (props: InputTodoProps) => {
   return (

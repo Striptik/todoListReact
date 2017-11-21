@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { TodoProps } from '../flow-typed/def';
+import { TodoProps } from '../../../flow-typed/def';
 
 const styleCompleted = {
   listStyle: 'none',

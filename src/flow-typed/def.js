@@ -29,13 +29,11 @@ export type TodoType = {
 export type AppState = {
   //count: number
   todos: Array<TodoType>,
-  loading: boolean,
   filter: string,
-  errorMsg: string,
+  loading: Boolean,
 };
 
 export type TodoListProps = {
-  errorHandler: Function,
   filter: string,
   todos: Array<TodoType>,
 };
